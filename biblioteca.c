@@ -1,15 +1,8 @@
-//
-// Created by Pedro Satoru on 12/09/2023.
-//
-
+// biblioteca.c
 #include "biblioteca.h"
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_TAREFAS 100
-
-
-// Função para salvar todas as tarefas em um arquivo binário
 void salvarTarefas(struct tarefa tarefas[], int numTarefas) {
     FILE *arquivo = fopen("tarefas.bin", "wb");
     if (arquivo == NULL) {
@@ -21,7 +14,6 @@ void salvarTarefas(struct tarefa tarefas[], int numTarefas) {
     fclose(arquivo);
 }
 
-// Função para carregar todas as tarefas de um arquivo binário
 int carregarTarefas(struct tarefa tarefas[]) {
     FILE *arquivo = fopen("tarefas.bin", "rb");
     if (arquivo == NULL) {
@@ -37,7 +29,6 @@ int carregarTarefas(struct tarefa tarefas[]) {
     return numTarefas;
 }
 
-// Função para cadastrar uma nova tarefa
 void cadastrarTarefa(struct tarefa tarefas[], int *numTarefas) {
     if (*numTarefas >= MAX_TAREFAS) {
         printf("Limite maximo de tarefas atingido.\n");
@@ -55,57 +46,58 @@ void cadastrarTarefa(struct tarefa tarefas[], int *numTarefas) {
     printf("Categoria da tarefa (ate 100 letras): ");
     fgets(novaTarefa.categoria, sizeof(novaTarefa.categoria), stdin);
 
+    printf("Estado da tarefa (completo/em andamento/não iniciado): ");
+    fgets(novaTarefa.estado, sizeof(novaTarefa.estado), stdin);
+
     tarefas[*numTarefas] = novaTarefa;
     (*numTarefas)++;
-    salvarTarefas(tarefas, *numTarefas); // Salva a tarefa no arquivo
+    salvarTarefas(tarefas, *numTarefas);
     printf("Tarefa cadastrada com sucesso!\n");
 }
 
-// Função para listar todas as tarefas
 void listarTarefas(struct tarefa tarefas[], int numTarefas) {
     printf("Lista de Tarefas:\n");
     for (int i = 0; i < numTarefas; i++) {
         printf("Prioridade: %d\n", tarefas[i].prioridade);
         printf("Descricao: %s", tarefas[i].descricao);
         printf("Categoria: %s", tarefas[i].categoria);
+        printf("Estado: %s", tarefas[i].estado);
         printf("\n");
     }
 }
 
-// Função para deletar uma tarefa por prioridade e categoria
 void deletarTarefa(struct tarefa tarefas[], int *numTarefas, int prioridade, char categoria[]) {
     int tarefaEncontrada = 0;
 
     for (int i = 0; i < *numTarefas; i++) {
         if (tarefas[i].prioridade == prioridade &&
-            strcmp(tarefas[i].categoria, categoria) == 0) {
+            strcmp(tarefas[i].categoria, categoria) == 0 &&
+            strcmp(tarefas[i].estado, "completo") == 0) {
             tarefaEncontrada = 1;
 
-            // Remover a tarefa movendo as tarefas seguintes para uma posição anterior
             for (int j = i; j < *numTarefas - 1; j++) {
                 tarefas[j] = tarefas[j + 1];
             }
             (*numTarefas)--;
-            salvarTarefas(tarefas, *numTarefas); // Salva as tarefas atualizadas no arquivo
+            salvarTarefas(tarefas, *numTarefas);
             printf("Tarefa com prioridade %d e categoria '%s' deletada com sucesso!\n", prioridade, categoria);
             break;
         }
     }
 
     if (!tarefaEncontrada) {
-        printf("Tarefa nao encontrada.\n");
+        printf("Tarefa nao encontrada ou já está completa.\n");
     }
 }
-
 
 void alterarTarefa(struct tarefa tarefas[], int numTarefas, int prioridade, char categoria[]) {
     int tarefaEncontrada = 0;
 
     for (int i = 0; i < numTarefas; i++) {
-        if (tarefas[i].prioridade == prioridade && strcmp(tarefas[i].categoria, categoria) == 0) {
+        if (tarefas[i].prioridade == prioridade && strcmp(tarefas[i].categoria, categoria) == 0 &&
+            strcmp(tarefas[i].estado, "completo") != 0) {
             tarefaEncontrada = 1;
 
-            // Aqui você pode implementar a lógica para permitir a alteração de um campo da tarefa
             printf("Digite o novo valor para a prioridade da tarefa: ");
             scanf("%d", &tarefas[i].prioridade);
 
@@ -116,13 +108,16 @@ void alterarTarefa(struct tarefa tarefas[], int numTarefas, int prioridade, char
             printf("Digite o novo valor para a categoria da tarefa: ");
             fgets(tarefas[i].categoria, sizeof(tarefas[i].categoria), stdin);
 
-            salvarTarefas(tarefas, numTarefas); // Salva as tarefas atualizadas no arquivo
+            printf("Digite o novo valor para o estado da tarefa: ");
+            fgets(tarefas[i].estado, sizeof(tarefas[i].estado), stdin);
+
+            salvarTarefas(tarefas, numTarefas);
             printf("Tarefa alterada com sucesso!\n");
             break;
         }
     }
 
     if (!tarefaEncontrada) {
-        printf("Tarefa não encontrada.\n");
+        printf("Tarefa não encontrada ou já está completa.\n");
     }
 }

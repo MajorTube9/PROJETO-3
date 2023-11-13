@@ -1,12 +1,10 @@
+// main.c
 #include <stdio.h>
 #include "biblioteca.h"
 
-
-
-//Gabriel Machado da Silva RA:22.123.005-5
 int main() {
     struct tarefa tarefas[MAX_TAREFAS];
-    int numTarefas = carregarTarefas(tarefas); // Carrega tarefas do arquivo binário
+    int numTarefas = carregarTarefas(tarefas);
 
     int opcao;
     do {
@@ -46,9 +44,6 @@ int main() {
             case 4:
                 printf("Encerrando o programa.\n");
                 break;
-            default:
-                printf("Opção inválida. Tente novamente.\n");
-                break;
             case 5:
                 if (numTarefas > 0) {
                     int prioridade;
@@ -66,10 +61,12 @@ int main() {
                     printf("Não há tarefas para alterar.\n");
                 }
                 break;
-
+            default:
+                printf("Opção inválida. Tente novamente.\n");
+                break;
         }
 
-    } while (opcao != 5);
+    } while (opcao != 4);
 
     return 0;
 }
