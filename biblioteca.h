@@ -21,4 +21,14 @@ void listarTarefas(struct tarefa tarefas[], int numTarefas);
 
 void deletarTarefa(struct tarefa tarefas[], int *numTarefas, int prioridade, char categoria[]);
 
+void alterarTarefa(struct tarefa tarefas[], int numTarefas, int prioridade, char categoria[]);
+
+
+
+
+
+
+
+
+
 #endif //PROJETO1_BIBLIOTECA_H

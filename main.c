@@ -16,6 +16,7 @@ int main() {
         printf("2. Listar Tarefas\n");
         printf("3. Deletar Tarefa\n");
         printf("4. Sair\n");
+        printf("5. Alterar Tarefa\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
 
@@ -49,8 +50,28 @@ int main() {
             default:
                 printf("Opção inválida. Tente novamente.\n");
                 break;
+            case 5:
+                if (numTarefas > 0) {
+                    int prioridade;
+                    printf("Digite a prioridade da tarefa a ser alterada: ");
+                    scanf("%d", &prioridade);
+
+                    char categoria[100];
+
+                    printf("Digite a categoria da tarefa: ");
+                    getchar(); // Lê o caractere de nova linha pendente
+                    fgets(categoria, sizeof(categoria), stdin);
+
+                    alterarTarefa(tarefas, numTarefas, prioridade, categoria);
+                } else {
+                    printf("Não há tarefas para alterar.\n");
+                }
+                break;
+
         }
-    } while (opcao != 4);
+
+    } while (opcao != 5);
 
     return 0;
 }
+
