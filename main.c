@@ -1,6 +1,7 @@
 // main.c
 #include <stdio.h>
 #include "biblioteca.h"
+#include <string.h>
 
 int main() {
     struct tarefa tarefas[MAX_TAREFAS];
@@ -17,6 +18,7 @@ int main() {
         printf("6. Filtrar Tarefas por Prioridade\n");
         printf("7. Filtrar Tarefas por Estado\n");
         printf("8. Filtrar Tarefas por Categoria\n");
+        printf("9. Filtrar Tarefas por Prioridade e Categoria\n"); // Nova opção
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
 
@@ -62,11 +64,27 @@ int main() {
                     printf("Digite a categoria para filtrar as tarefas: ");
                     getchar(); // Limpar o buffer do teclado
                     fgets(categoriaFiltrar, sizeof(categoriaFiltrar), stdin);
+                    // Remover o caractere de nova linha (\n) da categoria
+                    categoriaFiltrar[strcspn(categoriaFiltrar, "\n")] = '\0';
+                    filtrarTarefasPorCategoria(tarefas, numTarefas, categoriaFiltrar);
+                } else {
+                    printf("Não há tarefas para filtrar.\n");
+                }
+                break;
+            case 9:
+                if (numTarefas > 0) {
+                    int prioridadeFiltrar;
+                    printf("Digite a prioridade para filtrar as tarefas: ");
+                    scanf("%d", &prioridadeFiltrar);
 
+                    char categoriaFiltrar[100];
+                    printf("Digite a categoria para filtrar as tarefas: ");
+                    getchar(); // Limpar o buffer do teclado
+                    fgets(categoriaFiltrar, sizeof(categoriaFiltrar), stdin);
                     // Remover o caractere de nova linha (\n) da categoria
                     categoriaFiltrar[strcspn(categoriaFiltrar, "\n")] = '\0';
 
-                    filtrarTarefasPorCategoria(tarefas, numTarefas, categoriaFiltrar);
+                    filtrarTarefasPorPrioridadeECategoria(tarefas, numTarefas, prioridadeFiltrar, categoriaFiltrar);
                 } else {
                     printf("Não há tarefas para filtrar.\n");
                 }
