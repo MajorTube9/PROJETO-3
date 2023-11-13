@@ -4,16 +4,51 @@
 #include "biblioteca.h"
 
 void salvarTarefas(struct tarefa tarefas[], int numTarefas) {
-    // Implementação para salvar as tarefas em um arquivo, se necessário
-    // ...
+    FILE *arquivo = fopen("tarefas.txt", "w");
+
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo para escrita.\n");
+        return;
+    }
+
+    for (int i = 0; i < numTarefas; i++) {
+        fprintf(arquivo, "%d\n", tarefas[i].prioridade);
+        fprintf(arquivo, "%s", tarefas[i].descricao);
+        fprintf(arquivo, "%s", tarefas[i].categoria);
+        fprintf(arquivo, "%s\n", tarefas[i].estado);
+    }
+
+    fclose(arquivo);
 }
 
 int carregarTarefas(struct tarefa tarefas[]) {
-    // Implementação para carregar as tarefas de um arquivo, se necessário
-    // ...
+    FILE *arquivo = fopen("tarefas.txt", "r");
 
-    // Retorna um valor fictício para evitar erro no main
-    return 0;
+    if (arquivo == NULL) {
+        printf("Arquivo de tarefas não encontrado. Criando novo arquivo...\n");
+        return 0;
+    }
+
+    int numTarefas = 0;
+    while (fscanf(arquivo, "%d", &tarefas[numTarefas].prioridade) == 1) {
+        // Limpar o buffer após a leitura da prioridade
+        fgetc(arquivo);
+
+        fgets(tarefas[numTarefas].descricao, sizeof(tarefas[numTarefas].descricao), arquivo);
+        fgets(tarefas[numTarefas].categoria, sizeof(tarefas[numTarefas].categoria), arquivo);
+        fgets(tarefas[numTarefas].estado, sizeof(tarefas[numTarefas].estado), arquivo);
+
+        // Remover caracteres de nova linha
+        tarefas[numTarefas].descricao[strcspn(tarefas[numTarefas].descricao, "\n")] = '\0';
+        tarefas[numTarefas].categoria[strcspn(tarefas[numTarefas].categoria, "\n")] = '\0';
+        tarefas[numTarefas].estado[strcspn(tarefas[numTarefas].estado, "\n")] = '\0';
+
+        numTarefas++;
+    }
+
+    fclose(arquivo);
+
+    return numTarefas;
 }
 
 void cadastrarTarefa(struct tarefa tarefas[], int *numTarefas) {
@@ -24,19 +59,19 @@ void cadastrarTarefa(struct tarefa tarefas[], int *numTarefas) {
         scanf("%d", &tarefas[*numTarefas].prioridade);
 
         printf("Digite a descricao da tarefa: ");
-        getchar(); // Limpa o buffer do teclado
+        getchar(); // Limpar o buffer do teclado
         fgets(tarefas[*numTarefas].descricao, sizeof(tarefas[*numTarefas].descricao), stdin);
 
         printf("Digite a categoria da tarefa: ");
         fgets(tarefas[*numTarefas].categoria, sizeof(tarefas[*numTarefas].categoria), stdin);
 
-        // Remova o caractere de nova linha (\n) da categoria
+        // Remover o caractere de nova linha (\n) da categoria
         tarefas[*numTarefas].categoria[strcspn(tarefas[*numTarefas].categoria, "\n")] = '\0';
 
         printf("Digite o estado da tarefa: ");
         fgets(tarefas[*numTarefas].estado, sizeof(tarefas[*numTarefas].estado), stdin);
 
-        // Remova o caractere de nova linha (\n) do estado
+        // Remover o caractere de nova linha (\n) do estado
         tarefas[*numTarefas].estado[strcspn(tarefas[*numTarefas].estado, "\n")] = '\0';
 
         (*numTarefas)++;
@@ -51,8 +86,8 @@ void listarTarefas(struct tarefa tarefas[], int numTarefas) {
         printf("Lista de Tarefas:\n");
         for (int i = 0; i < numTarefas; i++) {
             printf("Prioridade: %d\n", tarefas[i].prioridade);
-            printf("Descrição: %s", tarefas[i].descricao);
-            printf("Categoria: %s", tarefas[i].categoria);
+            printf("Descrição: %s\n", tarefas[i].descricao);
+            printf("Categoria: %s\n", tarefas[i].categoria);
             printf("Estado: %s\n", tarefas[i].estado);
             printf("----------------------------\n");
         }
@@ -78,10 +113,12 @@ void filtrarTarefasPorPrioridade(struct tarefa tarefas[], int numTarefas, int pr
 
     for (int i = 0; i < numTarefas; i++) {
         if (tarefas[i].prioridade == prioridade) {
-            printf("Prioridade: %d\n", tarefas[i].prioridade);
-            printf("Descrição: %s", tarefas[i].descricao);
-            printf("Categoria: %s", tarefas[i].categoria);
+            printf
+                    ("Prioridade: %d\n", tarefas[i].prioridade);
+            printf("Descrição: %s\n", tarefas[i].descricao);
+            printf("Categoria: %s\n", tarefas[i].categoria);
             printf("Estado: %s\n", tarefas[i].estado);
+            printf("----------------------------\n");
 
             encontrou = 1;
         }
@@ -89,5 +126,27 @@ void filtrarTarefasPorPrioridade(struct tarefa tarefas[], int numTarefas, int pr
 
     if (!encontrou) {
         printf("Nenhuma tarefa encontrada com a prioridade %d.\n", prioridade);
+    }
+}
+
+void filtrarTarefasPorEstado(struct tarefa tarefas[], int numTarefas, const char estado[]) {
+    printf("\nTarefas com Estado %s:\n", estado);
+
+    int encontrou = 0;
+
+    for (int i = 0; i < numTarefas; i++) {
+        if (strcmp(tarefas[i].estado, estado) == 0) {
+            printf("Prioridade: %d\n", tarefas[i].prioridade);
+            printf("Descrição: %s\n", tarefas[i].descricao);
+            printf("Categoria: %s\n", tarefas[i].categoria);
+            printf("Estado: %s\n", tarefas[i].estado);
+            printf("----------------------------\n");
+
+            encontrou = 1;
+        }
+    }
+
+    if (!encontrou) {
+        printf("Nenhuma tarefa encontrada com o estado %s.\n", estado);
     }
 }
