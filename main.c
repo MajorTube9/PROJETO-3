@@ -3,7 +3,7 @@
 
 
 
-//Pedro Henrique Satoru Lima Takahashi RA:22.123.019-6
+
 //Gabriel Machado da Silva RA:22.123.005-5
 int main() {
     struct tarefa tarefas[MAX_TAREFAS];

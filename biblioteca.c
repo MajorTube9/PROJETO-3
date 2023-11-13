@@ -1,5 +1,4 @@
 //
-// Created by Pedro Satoru on 12/09/2023.
 //
 
 #include "biblioteca.h"
