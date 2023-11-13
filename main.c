@@ -15,7 +15,8 @@ int main() {
         printf("4. Sair\n");
         printf("5. Alterar Tarefa\n");
         printf("6. Filtrar Tarefas por Prioridade\n");
-        printf("7. Filtrar Tarefas por Estado\n"); // Nova opção
+        printf("7. Filtrar Tarefas por Estado\n");
+        printf("8. Filtrar Tarefas por Categoria\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
 
@@ -52,8 +53,22 @@ int main() {
                     scanf("%s", estadoFiltrar);
                     filtrarTarefasPorEstado(tarefas, numTarefas, estadoFiltrar);
                 } else {
-                    printf
-                            ("Não há tarefas para filtrar.\n");
+                    printf("Não há tarefas para filtrar.\n");
+                }
+                break;
+            case 8:
+                if (numTarefas > 0) {
+                    char categoriaFiltrar[100];
+                    printf("Digite a categoria para filtrar as tarefas: ");
+                    getchar(); // Limpar o buffer do teclado
+                    fgets(categoriaFiltrar, sizeof(categoriaFiltrar), stdin);
+
+                    // Remover o caractere de nova linha (\n) da categoria
+                    categoriaFiltrar[strcspn(categoriaFiltrar, "\n")] = '\0';
+
+                    filtrarTarefasPorCategoria(tarefas, numTarefas, categoriaFiltrar);
+                } else {
+                    printf("Não há tarefas para filtrar.\n");
                 }
                 break;
             default:
