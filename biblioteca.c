@@ -76,6 +76,11 @@ void cadastrarTarefa(struct tarefa tarefas[], int *numTarefas) {
 
         (*numTarefas)++;
         printf("Tarefa cadastrada com sucesso!\n");
+
+
+
+        (*numTarefas)++;
+        printf("Tarefa cadastrada com sucesso!\n");
     } else {
         printf("Limite de tarefas atingido.\n");
     }
@@ -113,8 +118,7 @@ void filtrarTarefasPorPrioridade(struct tarefa tarefas[], int numTarefas, int pr
 
     for (int i = 0; i < numTarefas; i++) {
         if (tarefas[i].prioridade == prioridade) {
-            printf
-                    ("Prioridade: %d\n", tarefas[i].prioridade);
+            printf("Prioridade: %d\n", tarefas[i].prioridade);
             printf("Descrição: %s\n", tarefas[i].descricao);
             printf("Categoria: %s\n", tarefas[i].categoria);
             printf("Estado: %s\n", tarefas[i].estado);
@@ -148,5 +152,27 @@ void filtrarTarefasPorEstado(struct tarefa tarefas[], int numTarefas, const char
 
     if (!encontrou) {
         printf("Nenhuma tarefa encontrada com o estado %s.\n", estado);
+    }
+}
+
+void filtrarTarefasPorCategoria(struct tarefa tarefas[], int numTarefas, const char categoria[]) {
+    printf("\nTarefas com Categoria %s:\n", categoria);
+
+    int encontrou = 0;
+
+    for (int i = 0; i < numTarefas; i++) {
+        if (strcmp(tarefas[i].categoria, categoria) == 0) {
+            printf("Prioridade: %d\n", tarefas[i].prioridade);
+            printf("Descrição: %s\n", tarefas[i].descricao);
+            printf("Categoria: %s\n", tarefas[i].categoria);
+            printf("Estado: %s\n", tarefas[i].estado);
+            printf("----------------------------\n");
+
+            encontrou = 1;
+        }
+    }
+
+    if (!encontrou) {
+        printf("Nenhuma tarefa encontrada com a categoria %s.\n", categoria);
     }
 }
