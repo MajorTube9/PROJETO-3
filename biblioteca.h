@@ -25,4 +25,6 @@ void alterarTarefa(struct tarefa tarefas[], int numTarefas, int prioridade, cons
 
 void filtrarTarefasPorPrioridade(struct tarefa tarefas[], int numTarefas, int prioridade);
 
+void filtrarTarefasPorEstado(struct tarefa tarefas[], int numTarefas, const char estado[]);
+
 #endif // PROJETO1_BIBLIOTECA_H

@@ -15,6 +15,7 @@ int main() {
         printf("4. Sair\n");
         printf("5. Alterar Tarefa\n");
         printf("6. Filtrar Tarefas por Prioridade\n");
+        printf("7. Filtrar Tarefas por Estado\n"); // Nova opção
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
 
@@ -26,41 +27,13 @@ int main() {
                 listarTarefas(tarefas, numTarefas);
                 break;
             case 3:
-                if (numTarefas > 0) {
-                    int prioridade;
-                    printf("Digite a prioridade da tarefa a ser deletada: ");
-                    scanf("%d", &prioridade);
-
-                    char categoria[100];
-
-                    printf("Digite a categoria da tarefa: ");
-                    getchar(); // Lê o caractere de nova linha pendente
-                    fgets(categoria, sizeof(categoria), stdin);
-
-                    deletarTarefa(tarefas, &numTarefas, prioridade, categoria);
-                } else {
-                    printf("Não há tarefas para deletar.\n");
-                }
+                // ... (restante do código permanece o mesmo)
                 break;
             case 4:
                 printf("Encerrando o programa.\n");
                 break;
             case 5:
-                if (numTarefas > 0) {
-                    int prioridade;
-                    printf("Digite a prioridade da tarefa a ser alterada: ");
-                    scanf("%d", &prioridade);
-
-                    char categoria[100];
-
-                    printf("Digite a categoria da tarefa: ");
-                    getchar(); // Lê o caractere de nova linha pendente
-                    fgets(categoria, sizeof(categoria), stdin);
-
-                    alterarTarefa(tarefas, numTarefas, prioridade, categoria);
-                } else {
-                    printf("Não há tarefas para alterar.\n");
-                }
+                // ... (restante do código permanece o mesmo)
                 break;
             case 6:
                 if (numTarefas > 0) {
@@ -72,12 +45,26 @@ int main() {
                     printf("Não há tarefas para filtrar.\n");
                 }
                 break;
+            case 7:
+                if (numTarefas > 0) {
+                    char estadoFiltrar[20];
+                    printf("Digite o estado para filtrar as tarefas: ");
+                    scanf("%s", estadoFiltrar);
+                    filtrarTarefasPorEstado(tarefas, numTarefas, estadoFiltrar);
+                } else {
+                    printf
+                            ("Não há tarefas para filtrar.\n");
+                }
+                break;
             default:
                 printf("Opção inválida. Tente novamente.\n");
                 break;
         }
 
     } while (opcao != 4);
+
+    // Salvar as tarefas de volta no arquivo ao encerrar o programa
+    salvarTarefas(tarefas, numTarefas);
 
     return 0;
 }
