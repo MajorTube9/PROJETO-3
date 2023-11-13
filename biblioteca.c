@@ -1,4 +1,5 @@
 //
+// Created by Pedro Satoru on 12/09/2023.
 //
 
 #include "biblioteca.h"
@@ -93,5 +94,35 @@ void deletarTarefa(struct tarefa tarefas[], int *numTarefas, int prioridade, cha
 
     if (!tarefaEncontrada) {
         printf("Tarefa nao encontrada.\n");
+    }
+}
+
+
+void alterarTarefa(struct tarefa tarefas[], int numTarefas, int prioridade, char categoria[]) {
+    int tarefaEncontrada = 0;
+
+    for (int i = 0; i < numTarefas; i++) {
+        if (tarefas[i].prioridade == prioridade && strcmp(tarefas[i].categoria, categoria) == 0) {
+            tarefaEncontrada = 1;
+
+            // Aqui você pode implementar a lógica para permitir a alteração de um campo da tarefa
+            printf("Digite o novo valor para a prioridade da tarefa: ");
+            scanf("%d", &tarefas[i].prioridade);
+
+            printf("Digite o novo valor para a descrição da tarefa: ");
+            getchar(); // Lê o caractere de nova linha pendente
+            fgets(tarefas[i].descricao, sizeof(tarefas[i].descricao), stdin);
+
+            printf("Digite o novo valor para a categoria da tarefa: ");
+            fgets(tarefas[i].categoria, sizeof(tarefas[i].categoria), stdin);
+
+            salvarTarefas(tarefas, numTarefas); // Salva as tarefas atualizadas no arquivo
+            printf("Tarefa alterada com sucesso!\n");
+            break;
+        }
+    }
+
+    if (!tarefaEncontrada) {
+        printf("Tarefa não encontrada.\n");
     }
 }
