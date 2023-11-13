@@ -14,6 +14,7 @@ int main() {
         printf("3. Deletar Tarefa\n");
         printf("4. Sair\n");
         printf("5. Alterar Tarefa\n");
+        printf("6. Filtrar Tarefas por Prioridade\n");
         printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
 
@@ -59,6 +60,16 @@ int main() {
                     alterarTarefa(tarefas, numTarefas, prioridade, categoria);
                 } else {
                     printf("Não há tarefas para alterar.\n");
+                }
+                break;
+            case 6:
+                if (numTarefas > 0) {
+                    int prioridadeFiltrar;
+                    printf("Digite a prioridade para filtrar as tarefas: ");
+                    scanf("%d", &prioridadeFiltrar);
+                    filtrarTarefasPorPrioridade(tarefas, numTarefas, prioridadeFiltrar);
+                } else {
+                    printf("Não há tarefas para filtrar.\n");
                 }
                 break;
             default:

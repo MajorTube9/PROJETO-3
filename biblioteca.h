@@ -1,10 +1,9 @@
-//
-// Created by Pedro Satoru on 12/09/2023.
-//
-
+// biblioteca.h
 #ifndef PROJETO1_BIBLIOTECA_H
 #define PROJETO1_BIBLIOTECA_H
+
 #define MAX_TAREFAS 100
+
 struct tarefa {
     int prioridade;
     char descricao[300];
@@ -20,16 +19,10 @@ void cadastrarTarefa(struct tarefa tarefas[], int *numTarefas);
 
 void listarTarefas(struct tarefa tarefas[], int numTarefas);
 
-void deletarTarefa(struct tarefa tarefas[], int *numTarefas, int prioridade, char categoria[]);
+void deletarTarefa(struct tarefa tarefas[], int *numTarefas, int prioridade, const char categoria[]);
 
-void alterarTarefa(struct tarefa tarefas[], int numTarefas, int prioridade, char categoria[]);
+void alterarTarefa(struct tarefa tarefas[], int numTarefas, int prioridade, const char categoria[]);
 
+void filtrarTarefasPorPrioridade(struct tarefa tarefas[], int numTarefas, int prioridade);
 
-
-
-
-
-
-
-
-#endif //PROJETO1_BIBLIOTECA_H
+#endif // PROJETO1_BIBLIOTECA_H
